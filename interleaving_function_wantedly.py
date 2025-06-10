@@ -35,3 +35,13 @@ def interleaving(user_id: int, page: int, per_page: int) -> List[int]:
 
     start = (page - 1) * per_page
     return result[start:start + per_page]
+
+
+# 考慮した観点と解決策（箇条書き）
+
+# - 両方のランキング結果に出てくるIDをなるべく公平に交互に interleave（交差）させる。
+# - 重複の排除：同じIDが new と old に含まれていても1回だけ表示されるようにした。
+# - 全件取得してからページング：ページ番号が異なる new_ranking, old_ranking で不整合が出ないように、
+#   まずは最大1000件くらい取っておき、そのあとページングすることで整合性を保った。
+# - per_page に満たないケースでも落ちないようにガードした。
+# - 両ランキングにしか存在しない募集IDも、少なくとも一度は表示されるように設計。
